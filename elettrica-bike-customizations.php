@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Elettrica Bike Customizations
  * Description: Personalizzazione sito elettrica-bike.it
- * Version: 1.7.3
+ * Version: 1.7.4
  * Author: Julio Cesar Plascencia
  */
 
