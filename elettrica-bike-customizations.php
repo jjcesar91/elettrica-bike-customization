@@ -6,6 +6,24 @@
  * Author: Julio Cesar Plascencia
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+
+// Force the checkbox to be checked
+add_filter( 'woocommerce_create_account_default_checked', '__return_true' );
+
+// Fallback: force it via jQuery in case the theme overrides WooCommerce behavior
+add_action( 'wp_footer', function() {
+    if ( is_checkout() ) : ?>
+        <script>
+            jQuery(function($){
+                $('#createaccount').prop('checked', true);
+            });
+        </script>
+    <?php endif;
+});
+
 
 function getProductPrice($product)
 {
