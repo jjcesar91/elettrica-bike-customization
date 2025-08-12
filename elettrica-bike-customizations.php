@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Elettrica Bike Customizations
  * Description: Personalizzazione sito elettrica-bike.it
- * Version: 1.3
+ * Version: 1.7.3
  * Author: Julio Cesar Plascencia
  */
 
@@ -22,7 +22,7 @@ function getProductPrice($product)
 
 
 function loadProductWidget($html, $product)
-{
+{   
 	if (get_queried_object_id() != $product->get_id()) {
 		return $html;
 	}
@@ -40,14 +40,29 @@ add_filter('woocommerce_get_price_html', 'loadProductWidget', 10, 2);
 
 
 
+// Add a message below the price on the single product page
+add_action('woocommerce_single_product_summary', 'add_text_below_price', 10.3);
+function add_text_below_price() {
+    echo do_shortcode('[wcb2brestrictedcontent allowed="121885"]<p style="margin-top: 5px; font-size: 14px;">*Il prezzo visualizzato è escluso IVA</p>[/wcb2brestrictedcontent]');
+}
+
 
  function custom_featured_label_script() {
     ?>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
-            var infoDiv = document.querySelector('.woocommerce-form-login-toggle .woocommerce-info');
-            if (infoDiv) {
-                infoDiv.innerHTML += ' <p class="title wd-login-divider" style="margin-top:10px !important"><span>O accedi con</span></p><div class="wd-social-login"><a href="https://elettrica-bike.it/account/?social_auth=facebook" class="login-fb-link btn">Facebook</a><a href="https://elettrica-bike.it/account/?social_auth=google" class="login-goo-link btn">Google</a></div>';
+            var socialLoginDivs = document.querySelectorAll('.wd-social-login');
+            if (window.location.href.includes('b2b-login')) {
+                socialLoginDivs.forEach(function(div) {
+                    div.style.display = 'none';
+                });
+            }
+
+            var dividers = document.querySelectorAll('p.title.wd-login-divider');
+            if (window.location.href.includes('b2b-login')) {
+                dividers.forEach(function(div) {
+                    div.style.display = 'none';
+                });
             }
 
             var element = document.querySelector('.featured.product-label');
